@@ -100,7 +100,7 @@ The settings of the terminal software are as follows.
 
 **Serial Port**
 
-|setting items|値：value|
+|setting items|value|
 |:--|:-:|
 |Baudrate|9600|
 |Data bits|8|
@@ -109,7 +109,7 @@ The settings of the terminal software are as follows.
 
 **Terminal**
 
-|setting items|値：value|
+|setting items|value|
 |:--|:-:|
 |Terminal Mode|Line Mode|
 |Enter Key Emulation|LF|
