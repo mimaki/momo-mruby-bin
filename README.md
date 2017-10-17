@@ -1,105 +1,106 @@
 # momo-mruby (mruby on GR-PEACH)
 
-**momo-mruby**は、ルネサスエレクトロニクス製のマイコンボード [GR-PEACH](http://gadget.renesas.com/ja/product/peach.html) で動作する「[mruby](http://mruby.org/)」実行環境です。  
-mrubyは、人気の開発言語「[Ruby](https://www.ruby-lang.org/)」を軽量化したプログラミング言語で、組込みシステムや様々なソフトウェアに組み込むことができる高機能なプログラミング言語です。  
-momo-mrubyは、GR-PEACHマイコンボード上にmruby 1.3.0を動作せることで、以下の機能を提供します。
+<table align="right"><tr><td><a href="README_ja.md">Japanese</a></td></tr></table>
+<br/>
 
-1. mrubyによる組込みアプリケーションの実行  
-microSDに書き込んだmrubyアプリケーションを実行できます。  
-mrubyコンパイラ(mrbc)でコンパイルしたmrubyバイナリ(mrbファイル)が実行できます。(mrubyスクリプトの実行もサポート予定)  
-また、複数のアプリケーションを連続で実行することも可能です。
+**momo-mruby** is a "[mruby](http://mruby.org/)" execution environment that runs on Renesas Electronics microcomputer board [GR-PEACH](https://os.mbed.com/platforms/Renesas-GR-PEACH/).  
+mruby is a lightweight implementation of the development language "[Ruby](https://www.ruby-lang.org/)" and can be embedded in embedded systems and various software.  
+momo-mruby provides the following functions by running mruby 1.3.0 on the GR-PEACH microcomputer board.
 
-3. 対話型mruby(mirb)  
-momo-mrubyでは、Rubyのirbに相当する対話型mruby(mirb)を動作させることができます。  
-mirbでは対話形式でmrubyスクリプトを動作させることができるため、mrubyスクリプトの簡易実行やmrubyライブラリの動作確認等に利用できます。
+1. Execution of embedded application by mruby  
+You can run mruby application written and stored in microSD. And you can execute mruby binary files (mrb file) compiled with the mruby compiler (mrbc). (We plan to support mruby script execution as well.) 
+And It is also possible to run multiple applications continuously.
 
-3. mruby IoT フレームワーク Plato 対応  
-momo-mrubyは、mruby IoT フレームワーク「[Plato](http://plato.click)」に対応しています。Platoで作成したIoTアプリケーションはmomo-mrubyで動作させることができます。
+2. Interactive mruby (mirb)  
+In momo-mruby, interactive mruby (mirb) equivalent to Ruby irb can be operated. Since mirb allows interactive mruby scripts to work, it can be used for simple execution of mruby scripts, operation check of mruby libraries.
 
-
-# momo-mrubyを使うための準備
-
-## 準備するもの
-
-- [GR-PEACH](http://gadget.renesas.com/ja/product/peach.html) (GR-PEACH-FULLを推奨)
-- USBケーブル (A-MicroB)
-- microSDカード
-- Windows PC または Mac
+3. mruby IoT framework Plato support  
+momo-mruby corresponds to the mruby IoT framework "[Plato](http://plato.click)". IoT applications created with Plato can be operated with momo-mruby.
 
 
-## momo-mrubyソフトウェアの入手
+# Preparation for using momo-mruby
 
-以下のリンクからmomo-mrubyのソフトウェアをダウンロードします。
+## Things to prepare
 
-- [Windows用](https://github.com/mimaki/momo-mruby-bin/archive/1.0.0-win.zip)
-- [Mac用](https://github.com/mimaki/momo-mruby-bin/archive/1.0.0-mac.zip)
+- [GR-PEACH](http://gadget.renesas.com/en/product/peach.html) (GR-PEACH-FULL recommended)
+- USB cable (A-MicroB)
+- microSD card
+- Windows PC or Mac
 
-ダウンロードしたmomo-mruby-1.0.0-xxx.zipを解凍すると以下のファイルが展開されます。
+
+## To get momo-mruby software
+
+Download momo-mruby software from the link below.
+
+- [For Windows](https://github.com/mimaki/momo-mruby-bin/archive/1.0.0-win.zip)
+- [For Mac](https://github.com/mimaki/momo-mruby-bin/archive/1.0.0-mac.zip)
+ 
+Extract the downloaded momo-mruby-1.0.0-xxx.zip and the following files will be expanded.
 
 ```
 momo-mruby-1.0.0-xxx/
   +-- bin/
-  |   +-- momo-mruby.bin (momo-mrubyファームウェア)
-  |   +-- mrbc.exe (Macの場合はmrbc)
+  |   +-- momo-mruby.bin (momo-mruby firmware)
+  |   +-- mrbc.exe (for Mac: mrbc)
   +-- sample/
   |   +-- *.rb
-  +-- README.md (このファイル)
+  +-- README*.md (This file)
 ```
 
 
-## GR-PEACHへのmomo-mrubyファームウェア書き込み
+## Write momo-mruby firmware to GR-PEACH
 
-購入直後のGR-PEACHには、mruby実行環境(momo-mruby)は搭載されていません。  
-GR-PEACHでmomo-mrubyを動作させるためには、GR-PEACHにmomo-mrubyファームウェアを書き込む必要があります。  
-momo-mrubyのファームウェア書き込みは以下の手順で行って下さい。
+The mruby execution environment (momo-mruby) is not installed in GR-PEACH. In order to operate momo-mruby with GR-PEACH, it is necessary to write momo-mruby firmware to GR-PEACH.  
+To write firmware of momo-mruby please follow the following procedure.
 
+1. Launch GR-PEACH
+Connect GR-PEACH to PC with USB cable. (Connects to the outside port of two USB ports.)  
+After a while GR-PEACH will be recognized as a drive named **MBED**.
 
-1. GR-PEACH起動  
-GR-PEACHをUSBケーブルでをPCに接続します。(2つあるUSBポートのうち、外側のポートに接続します)  
-しばらくすると**MBED**という名前のドライブとして認識されます。
-
-2. ファームウェアの書き込み  
-momo-mrubyのファームウェア(momo-mruby.bin)をMBEDドライブにコピーします。  
-しばらくすると（数秒以上かかります）MBEDドライブが再度マウントされ、momo-mrubyが起動します。
+2. Write firmware
+Copy the momo-mruby firmware (momo-mruby.bin) to the MBED drive. After a while (it will take several seconds or more) the MBED drive is mounted again and momo-mruby is started.
 
 
-# mrubyアプリケーションの実行
+# Run mruby application
 
-momo-mruby起動時にmicroSDカードが装着されている場合は、ルートディレクトリにある**autorun.mrb**を実行します。  
-mrubyアプリケーションのコンパイルには、mrubyコンパイラ(mrbc)を使用します。app.rbをコンパイルする場合にはmruby/binディレクトリ内のmrbcコマンドを実行します。
+momo-mruby If a microSD card is installed at startup, executes **autorun.mrb** in the root directory.  
+To compile the mruby application, use the mruby compiler (mrbc). To compile app.rb, execute the mrbc command in the **bin** directory.
 
 ```
-mrbc -o <出力ファイル名> <mrubyスクリプトファイル名>
+mrbc -o <output file name> <mruby script file name>
 ```
 
-**例: sample/led.rbをコンパイル**
+**ex. Compiling sample/led.rb**
+
 ```
 $ cd sample
-$ ../mruby/bin/mrbc -o autorun.mrb led.rb
+$ ../bin/mrbc -o autorun.mrb led.rb
 ```
 
-コンパイル結果(autorun.mrb)をmicroSDカードのルートディレクトリにコピーして、GR-PEACHのmicroSDスロットに装着します。  
-microSD装着後、GR-PEACHをUSB接続して電源投入すると、momo-mrubyが起動し、mrubyアプリケーション(autorun.mrb)が実行されます。  
-(led.rbを実行した場合はLEDがカラフルに点滅すれば動作していることが確認できます)
+Copy the compilation result (autorun.mrb) to the microSD card's root directory and install it in the microSD slot of GR-PEACH.  
+After installing the microSD, by connecting the GR-PEACH to the USB and turning on the power, momo-mruby is started and the mruby application (autorun.mrb) will be executed.  
+(When led.rb is executed, it can be confirmed that the LED flashes colorfully and it works.)
+ 
 
+# Launch momo-mruby interactive mode (mirb)
 
-# momo-mrubyの対話モード(mirb)の起動
+Connect momo-mruby-installed GR-PEACH to the USB of the PC with the microSD disconnected.  
+Start Terminal Software (CoolTerm is recommended) and connect to GR-PEACH.
 
-momo-mruby書き込み後のGR-PEACHをmicroSDを抜いた状態でPCにUSB接続します。  
-ターミナルソフト(CoolTerm推奨)を起動して、GR-PEACHに接続します。
+### For Windows
 
-### Windowsの場合  
-シリアルポートドライバをインストールする必要があります。  
-[こちら](https://developer.mbed.org/handbook/Windows-serial-configuration)のページの**Download latest driver**のリンクからインストーラをダウンロードし、インストーラを実行して下さい。  
-シリアルポートドライバのインストール後に、GR-PEACHをPCに接続すると、COMx に割り当てられます。
+You need to install the serial port driver.
+Download the installer from the **Download latest driver** link on [this page](https://developer.mbed.org/handbook/Windows-serial-configuration) and run the installer.  
+After installing the serial port driver, if GR-PEACH is connected to the PC, it will be assigned to COMx.
 
-### Macの場合  
-usbmodemXXXX に割り当てられます。
+### For Mac
+GR-PEACH will be assigned to usbmodemXXXX.
 
-ターミナルソフトの設定は下記の通りです。
+The settings of the terminal software are as follows.
 
 **Serial Port**
-|設定項目|設定値|
+
+|setting items|値：value|
 |:--|:-:|
 |Baudrate|9600|
 |Data bits|8|
@@ -107,15 +108,17 @@ usbmodemXXXX に割り当てられます。
 |Stop bits|1|
 
 **Terminal**
-|設定項目|設定値|
+
+|setting items|値：value|
 |:--|:-:|
 |Terminal Mode|Line Mode|
 |Enter Key Emulation|LF|
 |Local Echo|ON|
 
-**Connect**をクリックして、GR-PEACHに接続すると、mirbが開始されます。
 
-**mribの実行例**
+Then connect to the GR-PEACH. You'll find mirb is launched.
+
+**Example of execution**
 ```
 No disk, or could not put SD card in to SPI idle state
 Fail to initialize card
@@ -131,7 +134,7 @@ mirb - Embeddable Interactive Ruby Shell
 
 <font color="RoyalBlue">
 
-### ポイント  
-mrubyアプリケーションの終了後もmirbが実行されます。  
+### point
+mirb is executed even after the mruby application is terminated.
 
 </font>
