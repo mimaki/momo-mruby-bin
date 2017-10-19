@@ -103,6 +103,7 @@ usbmodemXXXX に割り当てられます。
 ターミナルソフトの設定は下記の通りです。
 
 **Serial Port**
+
 |設定項目|設定値|
 |:--|:-:|
 |Baudrate|9600|
@@ -111,6 +112,7 @@ usbmodemXXXX に割り当てられます。
 |Stop bits|1|
 
 **Terminal**
+
 |設定項目|設定値|
 |:--|:-:|
 |Terminal Mode|Line Mode|
